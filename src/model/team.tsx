@@ -1,5 +1,5 @@
 import mongoose, { Schema, Model, Document } from "mongoose";
-import Game from "./game";
+import Game from "./Game";
 
 interface ITeam extends Document {
   name: string;
