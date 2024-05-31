@@ -1,3 +1,4 @@
+import { teamSchema } from "@/lib/validation/teamSchema";
 import mongoose, { Schema, Document, Model } from "mongoose";
 
 // Define the IUser interface
@@ -6,9 +7,17 @@ interface IUser extends Document {
   password: string;
   email: string;
   teams: Array<{
+    game: string;
     team: mongoose.Schema.Types.ObjectId;
-    game: mongoose.Schema.Types.ObjectId;
   }>;
+  brawlStars: Array<{
+    id: string;
+    name: string;
+    trophies: number;
+    highestTrophies: number;
+    rank: string;
+  }>;
+  isActive: Boolean;
 }
 
 // Define the user schema
@@ -31,16 +40,28 @@ const userSchema: Schema<IUser> = new Schema({
   },
   teams: [
     {
+      game: {
+        type: String,
+      },
       team: {
         type: Schema.Types.ObjectId,
-        ref: "Team",
-      },
-      game: {
-        type: Schema.Types.ObjectId,
-        ref: "Game",
+        refPath: "teams.game",
       },
     },
   ],
+  brawlStars: [
+    {
+      id: String,
+      name: String,
+      trophies: Number,
+      highestTrophies: Number,
+      rank: String,
+    },
+  ],
+  isActive: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 // Create the User model

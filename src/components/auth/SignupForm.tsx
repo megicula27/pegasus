@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import Link from "next/link";
 
 type SignupFormInput = z.infer<typeof authSchema>;
 
@@ -41,7 +42,7 @@ const SignupForm = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-900">
+    <div className="flex items-center justify-center min-h-screen bg-gray-900 flex-col">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="w-full max-w-md p-8 bg-gray-800 rounded-lg shadow-lg"
@@ -130,6 +131,17 @@ const SignupForm = () => {
           Sign Up
         </button>
       </form>
+      <div>
+        <p className="text-white">
+          Already registered? kindly{" "}
+          <Link
+            className="text-indigo-500 hover:text-indigo-400 underline"
+            href="/login"
+          >
+            login
+          </Link>
+        </p>
+      </div>
     </div>
   );
 };

@@ -37,7 +37,6 @@ export const GET = async (
   { params }: { params: { playerId: string } }
 ) => {
   const { playerId } = params;
-  console.log("playerID: ", playerId, "params: ", params);
 
   if (!playerId || typeof playerId !== "string") {
     return NextResponse.json(

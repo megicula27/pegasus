@@ -11,7 +11,7 @@ const Header = () => {
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
         <Link href={"/"}>Pegasus</Link>
         <Link href={"/teams"}>Teams</Link>
-        <Link href={"/player"}>Search Players</Link>
+        <Link href={"/searchplayer"}>Search Players</Link>
         <Link href={"/tournaments"}>Tournaments</Link>
         <Link href={"/games"}>Games</Link>
         {session ? (

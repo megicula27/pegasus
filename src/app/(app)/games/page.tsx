@@ -1,11 +1,9 @@
 import React from "react";
-import Game from "@/components/games/Game";
-
+import { CarouselSize } from "@/components/games/common/GameCarousel";
 const Games = () => {
   return (
     <div>
-      Games
-      <Game />
+      <CarouselSize />
     </div>
   );
 };

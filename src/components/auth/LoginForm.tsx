@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type LoginSchemaInput = z.infer<typeof loginSchema>;
 
@@ -42,10 +43,10 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-900">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-md p-8 bg-gray-800 rounded-lg shadow-lg"
+        className="w-full max-w-md p-8 mb-4 bg-gray-800 rounded-lg shadow-lg"
       >
         <h2 className="mb-6 text-2xl font-semibold text-center text-white">
           Login
@@ -95,6 +96,18 @@ const LoginForm = () => {
           Login
         </button>
       </form>
+      <div className="w-full max-w-md p-4 bg-gray-800 rounded-lg shadow-lg">
+        <p className="text-white">
+          New to the website? Kindly{" "}
+          <Link
+            href="/signup"
+            className="text-indigo-500 hover:text-indigo-400 underline"
+          >
+            Signup
+          </Link>{" "}
+          for joining tournaments and many more features.
+        </p>
+      </div>
     </div>
   );
 };
