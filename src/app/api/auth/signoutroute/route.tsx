@@ -2,8 +2,9 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
 import dbconnection from "@/database/database";
 import User from "@/model/User";
+import { NextRequest } from "next/server";
 
-export async function POST(req: NextApiRequest) {
+export async function POST(req: NextRequest) {
   try {
     await dbconnection();
     const token = await getToken({ req });
