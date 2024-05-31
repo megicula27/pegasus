@@ -59,7 +59,7 @@ export const POST = async (req: NextRequest) => {
     // console.log("Constructed pipeline:", JSON.stringify(pipeline, null, 2));
 
     const users = await User.aggregate(pipeline).exec();
-    console.log("Query result:", users);
+    // console.log("Query result:", users);
 
     return NextResponse.json(
       {

@@ -1,6 +1,7 @@
 "use client";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+
+import React, { useEffect, useState, Suspense } from "react";
+import { useRouter } from "next/navigation";
 import BrawlStarsFilter from "@/components/games/BrawlStars/player/BrawlStarsFilter";
 
 interface IFoundPlayers {
@@ -13,18 +14,16 @@ interface IFoundPlayers {
 
 const SearchPage = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const game = searchParams ? searchParams.get("game") : "";
-  const [selectedGame, setSelectedGame] = useState(
-    game || "Please select a game"
-  );
+  const [selectedGame, setSelectedGame] = useState("Please select a game");
   const [playersFound, setPlayersFound] = useState<IFoundPlayers[]>([]);
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const game = params.get("game");
     if (game) {
       setSelectedGame(game);
     }
-  }, [game]);
+  }, []);
 
   useEffect(() => {
     console.log("playersFound state updated:", playersFound);
@@ -45,9 +44,8 @@ const SearchPage = () => {
       case "brawlstars":
         return <BrawlStarsFilter setPlayersFound={setPlayersFound} />;
       // Add cases for other games here
-      //   case "brawlstars":
+      //   case "valorant":
       //     return <ValorantFilter />;
-
       default:
         return (
           <div className="text-white">Select a game to see filter options</div>
@@ -81,7 +79,9 @@ const SearchPage = () => {
           <h2 className="text-white font-bold mb-2">
             Filters for {selectedGame}
           </h2>
-          {renderFilterComponent()}
+          <Suspense fallback={<div>Loading filters...</div>}>
+            {renderFilterComponent()}
+          </Suspense>
         </div>
         {playersFound.length > 0 ? (
           <div>
