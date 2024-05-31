@@ -1,6 +1,7 @@
 "use client";
+
+import React, { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
 import BrawlStarsFilter from "@/components/games/BrawlStars/player/BrawlStarsFilter";
 
 interface IFoundPlayers {
@@ -45,9 +46,8 @@ const SearchPage = () => {
       case "brawlstars":
         return <BrawlStarsFilter setPlayersFound={setPlayersFound} />;
       // Add cases for other games here
-      //   case "brawlstars":
+      //   case "valorant":
       //     return <ValorantFilter />;
-
       default:
         return (
           <div className="text-white">Select a game to see filter options</div>
@@ -81,7 +81,9 @@ const SearchPage = () => {
           <h2 className="text-white font-bold mb-2">
             Filters for {selectedGame}
           </h2>
-          {renderFilterComponent()}
+          <Suspense fallback={<div>Loading filters...</div>}>
+            {renderFilterComponent()}
+          </Suspense>
         </div>
         {playersFound.length > 0 ? (
           <div>
