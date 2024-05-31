@@ -19,19 +19,6 @@ interface PlayerProfile {
   // Add other fields as necessary
 }
 
-export const getPlayerProfile = async (
-  playerId: string
-): Promise<PlayerProfile> => {
-  try {
-    const encodedPlayerId = encodeURIComponent(playerId); // Encode the player ID
-    const response = await axiosInstance.get(`/players/%23${encodedPlayerId}`); // Use encoded ID
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching player profile:", error);
-    throw new Error("Technical error occurred while fetching player profile");
-  }
-};
-
 export const GET = async (
   req: NextRequest,
   { params }: { params: { playerId: string } }
@@ -44,6 +31,18 @@ export const GET = async (
       { status: 400 }
     );
   }
+  const getPlayerProfile = async (playerId: string): Promise<PlayerProfile> => {
+    try {
+      const encodedPlayerId = encodeURIComponent(playerId); // Encode the player ID
+      const response = await axiosInstance.get(
+        `/players/%23${encodedPlayerId}`
+      ); // Use encoded ID
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching player profile:", error);
+      throw new Error("Technical error occurred while fetching player profile");
+    }
+  };
 
   try {
     const playerProfile = await getPlayerProfile(playerId);
