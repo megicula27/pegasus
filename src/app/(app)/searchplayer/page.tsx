@@ -1,7 +1,7 @@
 "use client";
 
-import React, { Suspense, useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useState, Suspense } from "react";
+import { useRouter } from "next/navigation";
 import BrawlStarsFilter from "@/components/games/BrawlStars/player/BrawlStarsFilter";
 
 interface IFoundPlayers {
@@ -14,18 +14,16 @@ interface IFoundPlayers {
 
 const SearchPage = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const game = searchParams ? searchParams.get("game") : "";
-  const [selectedGame, setSelectedGame] = useState(
-    game || "Please select a game"
-  );
+  const [selectedGame, setSelectedGame] = useState("Please select a game");
   const [playersFound, setPlayersFound] = useState<IFoundPlayers[]>([]);
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const game = params.get("game");
     if (game) {
       setSelectedGame(game);
     }
-  }, [game]);
+  }, []);
 
   useEffect(() => {
     console.log("playersFound state updated:", playersFound);
