@@ -17,7 +17,7 @@ interface ITournament {
   endDate: Date;
 }
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
   const [tournaments, setTournaments] = useState<ITournament[]>([]);
   const [selectedGame, setSelectedGame] = useState("Please select a game");
@@ -113,4 +113,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
