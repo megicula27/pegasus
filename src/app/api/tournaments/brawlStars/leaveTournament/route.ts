@@ -1,9 +1,9 @@
 import dbconnection from "@/database/database";
 import TeamBrawl from "@/model/BrawlStars/TeamBrawl";
 import TournamentBrawl from "@/model/BrawlStars/TournamentBrawl";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
-export const POST = async (req: NextResponse) => {
+export const POST = async (req: NextRequest) => {
   try {
     await dbconnection();
     const body = await req.json();
