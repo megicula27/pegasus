@@ -1,5 +1,5 @@
 import dbconnection from "@/database/database";
-import Team from "@/model/TeamBrawl";
+import Team from "@/model/BrawlStars/TeamBrawl";
 import { NextResponse, NextRequest } from "next/server";
 import { getSession } from "next-auth/react"; // Import getSession to get the session user
 import { getServerSession } from "next-auth";

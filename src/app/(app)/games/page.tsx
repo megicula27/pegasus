@@ -1,5 +1,5 @@
 import React from "react";
-import { CarouselSize } from "@/components/games/common/GameCarousel";
+import { CarouselSize } from "@/components/games/common/Games/GameCarousel";
 const Games = () => {
   return (
     <div>

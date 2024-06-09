@@ -4,6 +4,7 @@ export interface ITeam extends Document {
   name: string;
   players: Array<mongoose.Schema.Types.ObjectId>;
   teamSize: number;
+  tournaments: Array<mongoose.Schema.Types.ObjectId>;
 }
 
 const teamSchema: Schema<ITeam> = new Schema({
@@ -23,6 +24,12 @@ const teamSchema: Schema<ITeam> = new Schema({
     type: Number,
     default: 3,
   },
+  tournaments: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "TournamentBrawl",
+    },
+  ],
 });
 
 const TeamBrawl: Model<ITeam> =

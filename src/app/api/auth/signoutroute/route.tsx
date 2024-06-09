@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
 import dbconnection from "@/database/database";
-import User from "@/model/User";
+import User from "@/model/User/User";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
