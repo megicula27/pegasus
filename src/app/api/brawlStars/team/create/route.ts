@@ -1,10 +1,10 @@
 import dbconnection from "@/database/database";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
-import Team from "@/model/TeamBrawl";
-import User from "@/model/User";
+import Team from "@/model/BrawlStars/TeamBrawl";
+import User from "@/model/User/User";
 import { getToken } from "next-auth/jwt";
-import { ITeam } from "@/model/TeamBrawl";
+import { ITeam } from "@/model/BrawlStars/TeamBrawl";
 import mongoose from "mongoose";
 
 // Define the user team interface

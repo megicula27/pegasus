@@ -1,6 +1,6 @@
 import dbconnection from "@/database/database";
-import TeamBrawl from "@/model/TeamBrawl";
-import User from "@/model/User";
+import TeamBrawl from "@/model/BrawlStars/TeamBrawl";
+import User from "@/model/User/User";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {

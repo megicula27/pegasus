@@ -25,10 +25,6 @@ const SearchPage = () => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log("playersFound state updated:", playersFound);
-  }, [playersFound]);
-
   const handleGameChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedGame = e.target.value;
     setSelectedGame(selectedGame);

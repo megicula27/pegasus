@@ -1,6 +1,6 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import User from "@/model/User";
+import User from "@/model/User/User";
 import dbconnection from "@/database/database";
 import bcrypt from "bcryptjs";
 import { Credentials } from "@/types/credentials";
@@ -50,6 +50,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.name = user.username;
         token.id = user._id || user.id;
+        token.uid = user.uid;
         token.active = true;
         token.teams = user.teams;
         token.brawlStars = user.brawlStars;
@@ -72,6 +73,7 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }: any) {
       if (token.id) {
         session.user.id = token.id;
+        session.user.uid = token.uid;
         session.user.name = token.name;
         session.user.active = token.active;
         session.user.teams = token.teams;

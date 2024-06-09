@@ -22,26 +22,34 @@ const CreateBrawlTeam = () => {
   const [validTeam, setValidTeam] = useState(false);
 
   useEffect(() => {
-    const fetchTeamMembers = async (teamId: string) => {
+    const fetchTeamMembers = async () => {
       try {
-        const response = await axios.get(`/api/brawlStars/team/${teamId}`);
+        const teamResponse = await axios.get(`/api/brawlStars/team/getTeam`);
+        const team = teamResponse.data;
+
+        if (!team) {
+          console.log("No team found");
+          return;
+        }
+
+        const response = await axios.get(
+          `/api/brawlStars/team/${team.team._id}`
+        );
 
         if (response.data.success) {
           setTeamName(response.data.data.name);
           setBrawlTeam(response.data.data.players);
+        } else {
+          toast.error(response.data.message || "Failed to fetch team members");
         }
       } catch (error) {
+        console.error("Error fetching team members:", error);
         toast.error("Failed to fetch team members");
       }
     };
 
-    if (session && session.user && session.user.teams) {
-      const brawlTeam = session.user.teams.find(
-        (team: any) => team.game === "brawl stars"
-      );
-      if (brawlTeam) {
-        fetchTeamMembers(brawlTeam.team);
-      }
+    if (session && session.user) {
+      fetchTeamMembers();
     }
   }, [session]);
 
