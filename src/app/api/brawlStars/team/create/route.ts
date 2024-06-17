@@ -6,9 +6,11 @@ import User from "@/model/User/User";
 import { getToken } from "next-auth/jwt";
 import { ITeam } from "@/model/BrawlStars/TeamBrawl";
 import mongoose from "mongoose";
+import { generateTeamId } from "@/utils/generateId";
 
 // Define the user team interface
 interface IUserteam {
+  uid: string;
   game: string;
   team: mongoose.Schema.Types.ObjectId;
 }
@@ -42,7 +44,6 @@ export const POST = async (req: NextRequest, res: NextApiResponse) => {
         { status: 400 }
       );
     }
-    console.log("line 45", teamName);
     // Find the user
     const user = await User.findOne({ username: token.name }).select(
       "username teams"
@@ -67,15 +68,14 @@ export const POST = async (req: NextRequest, res: NextApiResponse) => {
     });
 
     await newTeam.save();
-
+    const uid = generateTeamId();
     const userTeam: IUserteam = {
+      uid,
       game: "brawl stars",
       team: newTeam._id,
     };
-    console.log("line 75", teamName);
     // Add the new team to the user's teams
     user.teams.push(userTeam);
-    console.log("line 78", teamName);
     await user.save();
     return NextResponse.json({ success: true, data: user }, { status: 200 });
   } catch (error) {

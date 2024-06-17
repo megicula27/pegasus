@@ -6,3 +6,6 @@ export const generateTournamentId = () => {
 export const generateUserId = () => {
   return nanoid(8);
 };
+export const generateTeamId = () => {
+  return nanoid(8);
+};

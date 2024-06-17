@@ -77,13 +77,21 @@ const BrawlStarsFilter = ({ setPlayersFound }: any) => {
           <label htmlFor="rank" className="mb-1 text-white">
             Rank
           </label>
-          <input
+          <select
             id="rank"
-            type="text"
             value={rank}
             onChange={(e) => setRank(e.target.value)}
-            className="px-3 py-2 bg-gray-700 text-white rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
+            className="px-3 py-2 bg-gray-700 text-white rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 mt-3 mb-3"
+          >
+            <option value="">Select a rank</option>{" "}
+            <option value="bronze">Bronze</option>{" "}
+            <option value="silver">Silver</option>{" "}
+            <option value="gold">Gold</option>{" "}
+            <option value="diamond">Diamond</option>{" "}
+            <option value="mythic">Mythic</option>{" "}
+            <option value="legendary">Legendary</option>{" "}
+            <option value="masters">Masters</option>{" "}
+          </select>
         </div>
         <button
           type="submit"

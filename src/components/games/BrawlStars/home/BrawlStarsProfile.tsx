@@ -10,17 +10,31 @@ interface PlayerProfile {
   tag: string;
   trophies: number;
   highestTrophies: number;
-  // Add other fields as necessary
 }
 
-type Idata = {
+interface BrawlStats {
+  rank: string;
+  trophies: number;
+  highestTrophies: number;
+  name: string;
+  id: string;
+}
+
+type PlayerProfileData = {
   success: boolean;
   data: PlayerProfile;
   message?: string;
 };
 
+type BrawlStatsData = {
+  success: boolean;
+  data: BrawlStats;
+  message?: string;
+};
+
 export default function PlayerProfilePage() {
   const router = useRouter();
+  const { data: session }: any = useSession();
 
   const [playerTag, setPlayerTag] = useState("");
   const [playerProfile, setPlayerProfile] = useState<PlayerProfile | null>(
@@ -29,30 +43,45 @@ export default function PlayerProfilePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [rank, setRank] = useState("");
-  const [brawlStats, setBrawlStats] = useState([
-    {
-      rank: null,
-      trophies: null,
-      highestTrophies: null,
-      name: null,
-      id: null,
-    },
-  ]);
-  const { data: session }: any = useSession();
+  const [brawlStats, setBrawlStats] = useState<BrawlStats | null>(null);
 
   useEffect(() => {
-    if (session) {
-      if (session?.user?.brawlStars.length > 0) {
-        setBrawlStats(session.user.brawlStars);
+    const getBrawlStats = async () => {
+      if (session) {
+        try {
+          if (session?.user?.brawlStars) {
+            setBrawlStats(session.user.brawlStars);
+            console.log(session.user.brawlStars);
+
+            console.log(brawlStats?.name);
+          } else {
+            console.log("idhar aaaya");
+
+            const response = await axios.get<BrawlStatsData>(
+              `/api/brawlStars/playerProfile/brawlStats`
+            );
+            const data = response.data;
+            console.log(response);
+
+            if (data.success) {
+              setBrawlStats(data.data);
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching brawl stats:", error);
+        }
       }
-    }
-  });
+    };
+
+    getBrawlStats();
+  }, [session]);
+
   const fetchPlayerProfile = async () => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await axios.get<Idata>(
+      const response = await axios.get<PlayerProfileData>(
         `/api/brawlStars/playerProfile/${encodeURIComponent(playerTag)}`
       );
 
@@ -87,7 +116,6 @@ export default function PlayerProfilePage() {
         playerTag,
       });
       const data = response.data;
-      console.log("brawl stats", response.data);
 
       if (data.success) {
         toast.success("Player profile saved successfully");
@@ -110,25 +138,24 @@ export default function PlayerProfilePage() {
 
   return (
     <div>
-      {brawlStats[0].name !== null ? (
+      {brawlStats ? (
         <div className="p-6 bg-gray-800 text-white rounded-lg shadow-lg">
           <h2 className="text-2xl font-semibold mb-4">Your Brawl Profile</h2>
           <p className="mb-2">
-            <span className="font-bold">Name:</span> {brawlStats[0].name}
+            <span className="font-bold">Name:</span> {brawlStats.name}
           </p>
           <p className="mb-2">
-            <span className="font-bold">Tag:</span> {brawlStats[0].id}
+            <span className="font-bold">Tag:</span> {brawlStats.id}
           </p>
           <p className="mb-2">
-            <span className="font-bold">Rank:</span> {brawlStats[0].rank}
+            <span className="font-bold">Rank:</span> {brawlStats.rank}
           </p>
           <p className="mb-2">
-            <span className="font-bold">Trophies:</span>{" "}
-            {brawlStats[0].trophies}
+            <span className="font-bold">Trophies:</span> {brawlStats.trophies}
           </p>
           <p>
             <span className="font-bold">Highest Trophies:</span>{" "}
-            {brawlStats[0].highestTrophies}
+            {brawlStats.highestTrophies}
           </p>
         </div>
       ) : (
@@ -161,15 +188,24 @@ export default function PlayerProfilePage() {
                 <label htmlFor="rank" className="text-white mr-2">
                   Rank:
                 </label>
-                <input
-                  type="text"
+                <select
                   id="rank"
                   value={rank}
                   onChange={(e) => setRank(e.target.value)}
                   className="px-3 py-2 bg-gray-700 text-white rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 mt-3 mb-3"
-                />
+                >
+                  <option value="" disabled>
+                    Select a rank
+                  </option>
+                  <option value="bronze">Bronze</option>
+                  <option value="silver">Silver</option>
+                  <option value="gold">Gold</option>
+                  <option value="diamond">Diamond</option>
+                  <option value="mythic">Mythic</option>
+                  <option value="legendary">Legendary</option>
+                  <option value="masters">Masters</option>
+                </select>
 
-                {/* Display more profile details as needed */}
                 <button
                   onClick={handleProfileSave}
                   disabled={loading}

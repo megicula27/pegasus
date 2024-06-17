@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import AuthProvider from "@/lib/authProvider";
+import SignOutOnUnload from "@/utils/SignOutOnUnload";
+import CheckSessionOnLoad from "@/utils/CheckSessionOnLoad";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,6 +20,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider>
+          <CheckSessionOnLoad />
+          <SignOutOnUnload />
           <Toaster />
           {children}
         </AuthProvider>
