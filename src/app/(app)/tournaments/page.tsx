@@ -1,7 +1,6 @@
 "use client";
 import React, { Suspense, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { NextRequest } from "next/server";
 import mongoose from "mongoose";
 import TournamentCard from "@/components/games/BrawlStars/tournament/TournamentCard";
 import TournamentFilterBrawl from "@/components/games/BrawlStars/tournament/TournamentFilterBrawl";

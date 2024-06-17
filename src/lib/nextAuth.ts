@@ -64,8 +64,6 @@ export const authOptions: NextAuthOptions = {
           userActive.isActive = true;
           await userActive.save();
         }
-
-        const userAfter = await User.findById(user._id);
       }
 
       return token;
@@ -86,6 +84,18 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
+  },
+  events: {
+    async signOut(message: any) {
+      // This callback is called when the user session is ended (e.g., user logs out or browser/tab is closed)
+      await dbconnection();
+      const userFromDB = await User.findById(message.token.id);
+
+      if (userFromDB) {
+        userFromDB.isActive = false;
+        await userFromDB.save();
+      }
+    },
   },
 };
 

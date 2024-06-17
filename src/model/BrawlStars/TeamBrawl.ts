@@ -1,6 +1,7 @@
 import mongoose, { Schema, Model, Document } from "mongoose";
 
 export interface ITeam extends Document {
+  uid: string;
   name: string;
   players: Array<mongoose.Schema.Types.ObjectId>;
   teamSize: number;
@@ -8,6 +9,10 @@ export interface ITeam extends Document {
 }
 
 const teamSchema: Schema<ITeam> = new Schema({
+  uid: {
+    type: String,
+    required: true,
+  },
   name: {
     type: String,
     required: true,

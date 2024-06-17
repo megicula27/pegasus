@@ -11,13 +11,13 @@ interface IUser extends Document {
     game: string;
     team: mongoose.Schema.Types.ObjectId;
   }>;
-  brawlStars: Array<{
+  brawlStars: {
     id: string;
     name: string;
     trophies: number;
     highestTrophies: number;
     rank: string;
-  }>;
+  };
   isActive: Boolean;
 }
 
@@ -54,15 +54,14 @@ const userSchema: Schema<IUser> = new Schema({
       },
     },
   ],
-  brawlStars: [
-    {
-      id: String,
-      name: String,
-      trophies: Number,
-      highestTrophies: Number,
-      rank: String,
-    },
-  ],
+  brawlStars: {
+    id: String,
+    name: String,
+    trophies: Number,
+    highestTrophies: Number,
+    rank: String,
+  },
+
   isActive: {
     type: Boolean,
     default: false,

@@ -89,33 +89,31 @@ const SearchPage = () => {
                 >
                   <p className="mb-2">
                     <span className="font-bold text-white">Name:</span>{" "}
-                    {player.brawlStars && player.brawlStars[0] && (
+                    {player.brawlStars && (
                       <span className="text-white">
-                        {player.brawlStars[0].name}
+                        {player.brawlStars.name}
                       </span>
                     )}
                   </p>
                   <p className="mb-2">
                     <span className="font-bold text-white">Tag:</span>{" "}
-                    {player.brawlStars && player.brawlStars[0] && (
-                      <span className="text-white">
-                        {player.brawlStars[0].id}
-                      </span>
+                    {player.brawlStars && (
+                      <span className="text-white">{player.brawlStars.id}</span>
                     )}
                   </p>
                   <p className="mb-2">
                     <span className="font-bold text-white">Rank:</span>{" "}
-                    {player.brawlStars && player.brawlStars[0] && (
+                    {player.brawlStars && (
                       <span className="text-white">
-                        {player.brawlStars[0].rank}
+                        {player.brawlStars.rank}
                       </span>
                     )}
                   </p>
                   <p className="mb-2">
                     <span className="font-bold text-white">Trophies:</span>{" "}
-                    {player.brawlStars && player.brawlStars[0] && (
+                    {player.brawlStars && (
                       <span className="text-white">
-                        {player.brawlStars[0].trophies}
+                        {player.brawlStars.trophies}
                       </span>
                     )}
                   </p>
@@ -123,9 +121,9 @@ const SearchPage = () => {
                     <span className="font-bold text-white">
                       Highest Trophies:
                     </span>{" "}
-                    {player.brawlStars && player.brawlStars[0] && (
+                    {player.brawlStars && (
                       <span className="text-white">
-                        {player.brawlStars[0].highestTrophies}
+                        {player.brawlStars.highestTrophies}
                       </span>
                     )}
                   </p>
