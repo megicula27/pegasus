@@ -78,7 +78,7 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
   useEffect(() => {
     if (session) {
       const socketInstance = new WebSocket(
-        "wss://pegasus-server.onrender.com/"
+        "wss://pegasus-server.onrender.com/ws"
       );
       setSocket(socketInstance);
 
@@ -185,6 +185,7 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
         response,
         playerName: session.user.name,
       };
+      console.log("Sending response:", responseData);
       socket.send(JSON.stringify(responseData));
       toast.dismiss(t.id);
       toast.success(`You ${response}ed the invite`);
