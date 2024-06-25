@@ -78,13 +78,13 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
   useEffect(() => {
     if (session) {
       const socketInstance = new WebSocket(
-        "https://pegasus-server-production.up.railway.app/"
+        "wss://pegasus-server-production.up.railway.app/ws"
       );
       setSocket(socketInstance);
 
       socketInstance.onopen = () => {
         console.log("Connected to WebSocket server");
-        console.log("https://pegasus-server-production.up.railway.app/");
+        console.log("wss://pegasus-server-production.up.railway.app/ws");
 
         setIsConnected(true);
 
