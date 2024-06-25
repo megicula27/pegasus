@@ -5,6 +5,7 @@ import { Toaster } from "react-hot-toast";
 import AuthProvider from "@/lib/authProvider";
 import SignOutOnUnload from "@/utils/SignOutOnUnload";
 import CheckSessionOnLoad from "@/utils/CheckSessionOnLoad";
+import { WebSocketProvider } from "@/components/socket/SocketProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,10 +21,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider>
-          <CheckSessionOnLoad />
-          <SignOutOnUnload />
-          <Toaster />
-          {children}
+          <WebSocketProvider>
+            <Toaster />
+            <SignOutOnUnload />
+            <CheckSessionOnLoad />
+            {children}
+          </WebSocketProvider>
         </AuthProvider>
       </body>
     </html>

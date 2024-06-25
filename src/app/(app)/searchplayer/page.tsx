@@ -3,8 +3,13 @@
 import React, { useEffect, useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import BrawlStarsFilter from "@/components/games/BrawlStars/player/BrawlStarsFilter";
+import { Button } from "@/components/ui/button";
+import { useSession } from "next-auth/react";
+import toast from "react-hot-toast";
+import { useWebSocket } from "@/components/socket/SocketProvider";
 
 interface IFoundPlayers {
+  _id: string;
   tag: string;
   name: string;
   trophies: number;
@@ -13,7 +18,9 @@ interface IFoundPlayers {
 }
 
 const SearchPage = () => {
+  const { sendInvitation, isConnected } = useWebSocket();
   const router = useRouter();
+  const { data: session }: any = useSession();
   const [selectedGame, setSelectedGame] = useState("Please select a game");
   const [playersFound, setPlayersFound] = useState<IFoundPlayers[]>([]);
 
@@ -24,6 +31,22 @@ const SearchPage = () => {
       setSelectedGame(game);
     }
   }, []);
+
+  const handleInvitation = (player: any) => {
+    if (isConnected) {
+      console.log("Sending invitation to:", player._id);
+      sendInvitation(
+        player._id,
+        player.brawlStars.name,
+        player.brawlStars.rank
+      );
+    } else {
+      console.log("Not connected or not logged in");
+      toast.error(
+        "Please ensure you are connected and logged in to send invitations"
+      );
+    }
+  };
 
   const handleGameChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedGame = e.target.value;
@@ -39,9 +62,6 @@ const SearchPage = () => {
     switch (selectedGame) {
       case "brawlstars":
         return <BrawlStarsFilter setPlayersFound={setPlayersFound} />;
-      // Add cases for other games here
-      //   case "valorant":
-      //     return <ValorantFilter />;
       default:
         return (
           <div className="text-white">Select a game to see filter options</div>
@@ -60,14 +80,13 @@ const SearchPage = () => {
             </label>
             <select
               id="game"
-              value={selectedGame ? selectedGame : "Select a game"}
+              value={selectedGame}
               onChange={handleGameChange}
               className="px-3 py-2 bg-gray-600 text-white rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
             >
               <option value="empty">Please select a game</option>
               <option value="brawlstars">Brawl Stars</option>
               <option value="valorant">Valorant</option>
-              {/* Add options for other games here */}
             </select>
           </div>
         </div>
@@ -81,55 +100,60 @@ const SearchPage = () => {
         </div>
         {playersFound.length > 0 ? (
           <div>
-            {playersFound.map((player: any) => {
-              return (
-                <div
-                  className="bg-gray-800 p-4 rounded-md mb-4"
-                  key={player.tag}
-                >
-                  <p className="mb-2">
-                    <span className="font-bold text-white">Name:</span>{" "}
-                    {player.brawlStars && (
-                      <span className="text-white">
-                        {player.brawlStars.name}
-                      </span>
-                    )}
-                  </p>
-                  <p className="mb-2">
-                    <span className="font-bold text-white">Tag:</span>{" "}
-                    {player.brawlStars && (
-                      <span className="text-white">{player.brawlStars.id}</span>
-                    )}
-                  </p>
-                  <p className="mb-2">
-                    <span className="font-bold text-white">Rank:</span>{" "}
-                    {player.brawlStars && (
-                      <span className="text-white">
-                        {player.brawlStars.rank}
-                      </span>
-                    )}
-                  </p>
-                  <p className="mb-2">
-                    <span className="font-bold text-white">Trophies:</span>{" "}
-                    {player.brawlStars && (
-                      <span className="text-white">
-                        {player.brawlStars.trophies}
-                      </span>
-                    )}
-                  </p>
-                  <p className="mb-2">
-                    <span className="font-bold text-white">
-                      Highest Trophies:
-                    </span>{" "}
-                    {player.brawlStars && (
-                      <span className="text-white">
-                        {player.brawlStars.highestTrophies}
-                      </span>
-                    )}
-                  </p>
-                </div>
-              );
-            })}
+            {playersFound.map(
+              (player: any) =>
+                player._id !== session?.user.id && (
+                  <div key={player._id || player.tag} className="mb-4">
+                    <div className="bg-gray-800 p-4 rounded-md mb-2">
+                      <p className="mb-2">
+                        <span className="font-bold text-white">Name:</span>{" "}
+                        {player.brawlStars && (
+                          <span className="text-white">
+                            {player.brawlStars.name}
+                          </span>
+                        )}
+                      </p>
+                      <p className="mb-2">
+                        <span className="font-bold text-white">Tag:</span>{" "}
+                        {player.brawlStars && (
+                          <span className="text-white">
+                            {player.brawlStars.id}
+                          </span>
+                        )}
+                      </p>
+                      <p className="mb-2">
+                        <span className="font-bold text-white">Rank:</span>{" "}
+                        {player.brawlStars && (
+                          <span className="text-white">
+                            {player.brawlStars.rank}
+                          </span>
+                        )}
+                      </p>
+                      <p className="mb-2">
+                        <span className="font-bold text-white">Trophies:</span>{" "}
+                        {player.brawlStars && (
+                          <span className="text-white">
+                            {player.brawlStars.trophies}
+                          </span>
+                        )}
+                      </p>
+                      <p className="mb-2">
+                        <span className="font-bold text-white">
+                          Highest Trophies:
+                        </span>{" "}
+                        {player.brawlStars && (
+                          <span className="text-white">
+                            {player.brawlStars.highestTrophies}
+                          </span>
+                        )}
+                      </p>
+                    </div>
+                    <Button onClick={() => handleInvitation(player)}>
+                      Invite
+                    </Button>
+                  </div>
+                )
+            )}
           </div>
         ) : null}
       </div>

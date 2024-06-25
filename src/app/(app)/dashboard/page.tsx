@@ -1,9 +1,8 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 
-const Dashboard = () => {
-  return (
-    <div className="w-full flex justify-center mt-auto mb-auto">dashboard</div>
-  );
+const Page = () => {
+  return <div>Page</div>;
 };
 
-export default Dashboard;
+export default Page;
