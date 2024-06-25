@@ -77,7 +77,9 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
 
   useEffect(() => {
     if (session) {
-      const socketInstance = new WebSocket("ws://localhost:8080");
+      const socketInstance = new WebSocket(
+        "wss://pegasus-server.onrender.com/"
+      );
       setSocket(socketInstance);
 
       socketInstance.onopen = () => {
