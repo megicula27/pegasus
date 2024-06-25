@@ -78,7 +78,7 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
   useEffect(() => {
     if (session) {
       const socketInstance = new WebSocket(
-        "wss://pegasus-server.onrender.com/ws"
+        "wss://polished-great-mammal.glitch.me/"
       );
       setSocket(socketInstance);
 
