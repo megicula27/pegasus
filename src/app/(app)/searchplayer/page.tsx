@@ -31,15 +31,16 @@ const SearchPage = () => {
       setSelectedGame(game);
     }
   }, []);
+  const invitationData = session?.user?.brawlStars
+    ? { name: session.user.brawlStars.name, rank: session.user.brawlStars.rank }
+    : session
+    ? { name: session.user.name, rank: "Unknown" }
+    : { name: "Unknown", rank: "Unknown" };
 
   const handleInvitation = (player: any) => {
-    if (isConnected) {
+    if (session && isConnected) {
       console.log("Sending invitation to:", player._id);
-      sendInvitation(
-        player._id,
-        player.brawlStars.name,
-        player.brawlStars.rank
-      );
+      sendInvitation(player._id, invitationData.name, invitationData.rank);
     } else {
       console.log("Not connected or not logged in");
       toast.error(
