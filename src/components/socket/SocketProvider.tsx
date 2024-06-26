@@ -219,7 +219,7 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
         to: data.from,
         from: session.user.id,
         response,
-        playerName: session.user.name,
+        playerName: session.user.brawlStars.name,
       };
       socketRef.current.send(JSON.stringify(responseData));
       toast.dismiss(t.id);
