@@ -16,7 +16,7 @@ const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<LoginSchemaInput>({
     resolver: zodResolver(loginSchema),
   });
@@ -91,9 +91,10 @@ const LoginForm = () => {
         </div>
         <button
           type="submit"
+          disabled={isSubmitting}
           className="w-full px-4 py-2 text-white bg-indigo-600 rounded hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         >
-          Login
+          {isSubmitting ? "Logging in..." : "Login"}
         </button>
       </form>
       <div className="w-full max-w-md p-4 bg-gray-800 rounded-lg shadow-lg">
